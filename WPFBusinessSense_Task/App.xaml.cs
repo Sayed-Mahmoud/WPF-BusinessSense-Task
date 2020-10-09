@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 
 namespace WPFBusinessSense_Task
 {
@@ -12,5 +7,9 @@ namespace WPFBusinessSense_Task
     /// </summary>
     public partial class App : Application
     {
+        private void Application_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+
+        }
     }
 }

@@ -1,0 +1,158 @@
+﻿<Window x:Name="FormItems1" x:Class="WPFBusinessSense_Task.FormItems"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFBusinessSense_Task"
+        xmlns:Models="clr-namespace:WPFBusinessSense_Task.Models"
+        xmlns:properties="clr-namespace:WPFBusinessSense_Task.Properties"
+        mc:Ignorable="d"
+        Loaded="FormItems_Loaded"
+        Title="Items"
+        Width="800"
+        Height="600" HorizontalAlignment="Center" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
+
+    <Window.Resources>
+        <CollectionViewSource x:Key="itemsViewSource" d:DesignSource="{d:DesignInstance {x:Type Models:Items}, CreateList=True}" />
+        <RoutedUICommand x:Key="UpdateCommand" Text="Update" />
+        <RoutedUICommand x:Key="AddCommand" Text="Add" />
+        <RoutedUICommand x:Key="DeleteItemCommand" Text="Delete" />
+    </Window.Resources>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource UpdateCommand}" Executed="UpdateCommandHandler" />
+        <CommandBinding Command="{StaticResource AddCommand}" Executed="AddCommandHandler" />
+        <CommandBinding Command="{StaticResource DeleteItemCommand}" Executed="DeleteItemCommandHandler" />
+    </Window.CommandBindings>
+
+    <Grid DataContext="{StaticResource itemsViewSource}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="2" Padding="5" CornerRadius="5" Grid.ColumnSpan="2">
+            <DockPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="500" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">Item ID</Label>
+                    <Label Grid.Row="1" Grid.Column="0" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">Barcode</Label>
+                    <Label Grid.Row="2" Grid.Column="0" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">Name</Label>
+                    <Label Grid.Row="3" Grid.Column="0" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">Sales Price</Label>
+
+                    <TextBox Name="ItemIdTBox" Text="{Binding ItemId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="1" Grid.Row="0" Margin="5" Height="26" VerticalContentAlignment="Center" IsReadOnly="True" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" />
+                    <TextBox Name="ItemBarcodeTBox" Text="{Binding ItemBarCode, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="1" Grid.Row="1" Margin="5" Height="26" VerticalContentAlignment="Center" MaxLength="13" />
+                    <TextBox Name="ItemNameTBOX" Text="{Binding ItemName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="1" Grid.Row="2" Margin="5" Height="26" VerticalContentAlignment="Center" MaxLength="100" />
+                    <TextBox Name="ItemPriceNum" Text="{Binding ItemSalesPrice, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="1" Grid.Row="3" Margin="5" Height="26" PreviewTextInput="ItemPriceNum_PreviewTextInput" DataObject.Pasting="ItemPriceNum_Pasting" LostFocus="ItemPriceNum_LostFocus" TextChanged="ItemPriceNum_TextChanged" VerticalContentAlignment="Center" MaxLength="16" />
+
+                    <GroupBox Grid.Column="1" Grid.Row="4" Header="Search">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Label Grid.Column="0" Width="auto" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">Search Type</Label>
+                            <ComboBox Name="SearchType" Grid.Column="1" Width="120" Margin="5" Height="26" ToolTip="Search Type" VerticalContentAlignment="Center" />
+                            <TextBox Grid.Column="2" Name="SearchTxt" Margin="5" Height="26" VerticalContentAlignment="Center" MaxLength="100" TextChanged="SearchTxt_TextChanged" />
+
+                            <!--<Label Width="auto" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="1" Margin="5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center">Search</Label>
+                            <ComboBox Width="120" Grid.Column="1" Grid.Row="4" Margin="55,0,325,0" Height="26" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" ToolTip="Search Type" />
+                            <TextBox Name="SearchTxt" Grid.Column="1" Grid.Row="4" Margin="180,5,5,5" Height="26" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" MaxLength="100" />-->
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid DockPanel.Dock="Right">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Button Name="NewBtn" Width="70" Margin="5" Grid.Column="0" Grid.Row="0" Command="{StaticResource AddCommand}" VerticalContentAlignment="Top">
+                        <StackPanel>
+                            <Image Source="Resources/new-48.png" Height="40" Width="48" HorizontalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Center">New</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="SaveBtn" Width="70" Margin="5" Grid.Column="0" Grid.Row="1" Command="{StaticResource UpdateCommand}">
+                        <StackPanel>
+                            <Image Source="Resources/save-close-48_2.png" Height="40" Width="48" HorizontalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Center">Save</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="DeleteBtn" Width="70" Margin="5" Grid.Column="0" Grid.Row="2" Command="{StaticResource DeleteItemCommand}">
+                        <StackPanel>
+                            <Image Source="Resources/delete-bin-48.png" Height="40" Width="48" HorizontalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Center">Delete</Label>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </DockPanel>
+        </Border>
+
+        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="1" Padding="5" CornerRadius="5" Grid.ColumnSpan="2">
+
+            <DataGrid x:Name="MyDataGridView" AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="True" SelectionUnit="FullRow" IsReadOnly="True" ItemsSource="{Binding}"
+                   VerticalAlignment="Top" EnableRowVirtualization="True">
+
+                <!--
+            Background="White"
+            SelectionMode="Extended"
+            RowDetailsVisibilityMode="VisibleWhenSelected"
+            EnableRowVirtualization="True"
+            -->
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="itemIdColumn" Binding="{Binding ItemId}" Header="Item Id" IsReadOnly="True" Width="100">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn x:Name="itemBarCodeColumn"  Binding="{Binding ItemBarCode}" Header="Barcode" Width="100">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn x:Name="itemNameColumn" Binding="{Binding ItemName}" Header="Name" Width="*">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn x:Name="itemSalesPriceColumn" Binding="{Binding ItemSalesPrice}" Header="Sales Price" Width="100">
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</Window>

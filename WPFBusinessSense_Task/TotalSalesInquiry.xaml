@@ -1,0 +1,82 @@
+﻿<Window x:Class="WPFBusinessSense_Task.TotalSalesInquiry"
+        Name="TotalSalesInquiry1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFBusinessSense_Task"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        KeyDown="TotalSalesInquiry_KeyDown"
+        Loaded="TotalSalesInquiry_Loaded"
+        Title="Total Sales - Inquiry" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0" Margin="2" Padding="5" BorderThickness="1" BorderBrush="Black">
+            <DockPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Fromdate" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
+                    <Label Grid.Column="2" Content="Todate" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
+
+                    <DatePicker Name="FromDateTimePicker" SelectedDateFormat="Short" Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="1,5,5,5" Height="25" />
+                    <DatePicker Name="ToDateTimePicker" SelectedDateFormat="Short" Grid.Column="3" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="1,5,5,5" Height="25" />
+
+                    <GroupBox Header="Sales by" Grid.Column="4" Grid.Row="0">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <RadioButton Name="ByItemRadioBtn" Content="Item" Grid.Column="0" IsChecked="True" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5" />
+                            <RadioButton Name="ByDateRadioBtn" Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5" >Date</RadioButton>
+                        </Grid>
+                    </GroupBox>
+
+                    <Button Name="SearchBtn" Width="70" Margin="20, 6, 6, 6" Grid.Column="5" Grid.Row="1" Click="SearchBtn_Click">
+                        <StackPanel>
+                            <Image Source="Resources/searchv2_64.png" Height="40" Width="48" HorizontalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Center">Search</Label>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Name="PrintBtn" Width="70" Margin="6" Grid.Column="6" Grid.Row="1" Click="PrintBtn_Click">
+                        <StackPanel>
+                            <Image Source="Resources/printer-48px.png" Height="40" Width="48" HorizontalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Center">Print</Label>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </DockPanel>
+        </Border>
+
+        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Margin="1" Padding="5" CornerRadius="2" Grid.ColumnSpan="2">
+            <DataGrid Name="MyDataGridView" ItemsSource="{Binding}" SelectionMode="Single" AutoGenerateColumns="True" SelectionUnit="FullRow" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="True"
+                      ColumnWidth="*">
+            </DataGrid>
+        </Border>
+    </Grid>
+</Window>

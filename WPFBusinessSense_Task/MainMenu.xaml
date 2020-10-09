@@ -1,0 +1,38 @@
+﻿<Window x:Class="WPFBusinessSense_Task.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFBusinessSense_Task"
+        Name="MainMenu"
+        Title="Main Menu" Height="593" Width="949" WindowState="Maximized" WindowStartupLocation="CenterScreen" MinWidth="2">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Background="White">
+            <MenuItem Header="Application">
+                <MenuItem Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click" Background="White" />
+            </MenuItem>
+
+            <MenuItem Header="Items">
+                <MenuItem Name="ItemsMenuItem" Header="Items" Click="ItemsMenuItem_Click" Background="White" />
+            </MenuItem>
+
+            <MenuItem Header="Invoices">
+                <MenuItem Name="CashSalesInvoiceMenuItem" Header="Cash Sales Invoice" Click="CashSalesInvoiceMenuItem_Click" Background="White" />
+            </MenuItem>
+
+            <MenuItem Header="Inquiries/Reports">
+                <MenuItem Name="TotalSalesMenuItem" Header="Total Sales" Click="TotalSalesMenuItem_Click" Background="White" />
+            </MenuItem>
+        </Menu>
+
+        <Border Grid.Row="1">
+            <Border.Background>
+                <ImageBrush ImageSource="Resources/logo.png" Stretch="None" />
+            </Border.Background>
+        </Border>
+    </Grid>
+</Window>

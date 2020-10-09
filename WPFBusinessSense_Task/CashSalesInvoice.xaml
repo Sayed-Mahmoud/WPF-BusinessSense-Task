@@ -1,0 +1,215 @@
+﻿<Window x:Name="CashSalesInvoice1" x:Class="WPFBusinessSense_Task.CashSalesInvoice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFBusinessSense_Task"
+        xmlns:Models="clr-namespace:WPFBusinessSense_Task.Models"
+        mc:Ignorable="d"
+        Title="Cash Sales - Invoice" Height="600" Width="850" WindowStartupLocation="CenterScreen" KeyDown="CashSalesInvoice1_KeyDown" Loaded="CashSalesInvoice1_Loaded">
+    <Window.Resources>
+
+        <CollectionViewSource x:Key="invoicesViewSource" d:DesignSource="{d:DesignInstance {x:Type Models:Invoices}, CreateList=True}" />
+        <CollectionViewSource x:Key="invoicesInvoices_ItemsViewSource" Source="{Binding Invoices_Items, Source={StaticResource invoicesViewSource}}" />
+
+        <!--<CollectionViewSource x:Key="itemsViewSource" d:DesignSource="{d:DesignInstance {x:Type Models:Items}, CreateList=True}" />
+        <CollectionViewSource x:Key="invoices_ItemsViewSource" d:DesignSource="{d:DesignInstance {x:Type Models:Invoices_ItemsMetaData}, CreateList=True}" />-->
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0">
+            <GroupBox Header="Search Invoice">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Content="Fromdate" HorizontalContentAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+                    <Label Grid.Column="2" Content="Todate" HorizontalContentAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+
+                    <DatePicker x:Name="FromDateTimePicker" SelectedDateFormat="Short" Grid.Column="1" HorizontalContentAlignment="Left" VerticalAlignment="Top" Margin="1,5,5,5" Height="25" />
+                    <DatePicker x:Name="ToDateTimePicker" SelectedDateFormat="Short" Grid.Column="3" HorizontalContentAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Height="25" />
+
+                    <Button x:Name="SearchBtn" Grid.Column="4" Click="SearchBtn_Click" Height="25" Width="100" VerticalAlignment="Top" Margin="1,5,5,5">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Resources/searchv2_64.png" Width="55" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Search" />
+                        </StackPanel>
+                    </Button>
+
+                    <Grid DataContext="{StaticResource invoicesViewSource}" Grid.Column="6" Grid.RowSpan="2">
+                        <DataGrid x:Name="SearchDataGridView" AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectionUnit="FullRow" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="True"
+                      ColumnWidth="*" Height="165" EnableRowVirtualization="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Invoice Id" Binding="{Binding InvoiceId}" Width="80" />
+                                <DataGridTextColumn Header="Invoice Date" Binding="{Binding InvoiceDate}" Width="*" />
+                                <DataGridTextColumn Header="Total Price" Binding="{Binding TotalInvoicePrice, Mode=OneWay}" Width="100" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Button Name="NewInvoiceBtn" Width="70" Margin="5" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Click="NewInvoiceBtn_Click">
+                        <StackPanel>
+                            <Image Source="Resources/new-48.png" Height="40" Width="48" HorizontalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Center">New</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="SaveInvoiceBtn" Width="70" Margin="5" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Click="SaveInvoiceBtn_Click">
+                        <StackPanel>
+                            <Image Source="Resources/save-all-48_3.png" Height="40" Width="48" HorizontalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Center">Save</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button Name="DeleteInvoiceBtn" Width="70" Margin="5" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Click="DeleteInvoiceBtn_Click">
+                        <StackPanel>
+                            <Image Source="Resources/delete-bin-48.png" Height="40" Width="48" HorizontalAlignment="Center" />
+                            <Label Padding="0" HorizontalAlignment="Center">Delete</Label>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </GroupBox>
+        </Border>
+
+        <Border Grid.Row="1">
+            <GroupBox Header="Invoice Info">
+                <Grid DataContext="{StaticResource invoicesViewSource}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Column="0" Content="Id" HorizontalContentAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+                    <Label Grid.Column="2" Content="Date" HorizontalContentAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+                    <Label Grid.Column="4" Content="Total Price" HorizontalContentAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+
+                    <TextBox Name="InvoiceIdTBox" Text="{Binding InvoiceId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="1" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" IsReadOnly="True" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" />
+
+                    <DatePicker Name="InvoicedateTimePicker" Validation.ErrorTemplate="{x:Null}" Text="{Binding InvoiceDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="3" Margin="5" VerticalContentAlignment="Center" SelectedDateChanged="InvoicedateTimePicker_SelectedDateChanged">
+                        <DatePicker.Resources>
+                            <Style TargetType="{x:Type DatePickerTextBox}">
+                                <Setter Property="Control.Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <TextBox x:Name="PART_TextBox"
+     Text="{Binding Path=SelectedDate, StringFormat='hh:mm:ss tt - dd/MM/yyyy',
+     RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DatePicker.Resources>
+                    </DatePicker>
+
+                    <TextBox Name="TotalInvoicePrice" Text="{Binding TotalInvoicePrice, Mode=OneWay}" Grid.Column="5" Grid.Row="0" Margin="5" VerticalContentAlignment="Center" IsReadOnly="True" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" />
+                </Grid>
+            </GroupBox>
+        </Border>
+
+        <Grid Grid.Row="2" DataContext="{StaticResource invoicesInvoices_ItemsViewSource}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0">
+                <GroupBox Header="Item">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Column="0" Content="Item Id" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+                        <Label Grid.Column="2" Content="Item Barcode" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+                        <Label Grid.Column="4" Content="Item Name" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+                        <Label Grid.Column="0" Grid.Row="1" Content="Quantity" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+                        <Label Grid.Column="2" Grid.Row="1" Content="Price" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+                        <Label Grid.Column="4" Grid.Row="1" Content="Total Price" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="1,5,5,5" Height="25" />
+
+                        <ComboBox Name="ItemIdCBox" Width="120" Text="{Binding Item_Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="1" Margin="5" VerticalContentAlignment="Center" IsTextSearchEnabled="True" IsEditable="True" StaysOpenOnEdit="True" />
+                        <ComboBox Name="ItemCodeCBox" Width="120" Text="{Binding Items.ItemBarCode, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="3" Margin="5" VerticalContentAlignment="Center" IsTextSearchEnabled="True" IsEditable="True" StaysOpenOnEdit="True" />
+                        <ComboBox Name="ItemNameCBox" Text="{Binding Items.ItemName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="5" Margin="5" VerticalContentAlignment="Center" IsTextSearchEnabled="True" IsEditable="True" StaysOpenOnEdit="True" />
+
+                        <TextBox Name="QtyTBox" Width="120" Text="{Binding Quantity, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="1" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" TextChanged="QtyPriceTBox_TextChanged" />
+                        <TextBox Name="PriceTBox" Width="120" Text="{Binding InvItem_SalesPrice, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="3" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" TextChanged="QtyPriceTBox_TextChanged" />
+                        <TextBox Name="TotalItemBox" Text="{Binding Item_TotalPrice, Mode=OneWay}" Grid.Column="5" Grid.Row="1" Margin="5" VerticalContentAlignment="Center" IsReadOnly="True" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}" />
+
+                        <Button x:Name="NewItemBtn" Grid.Column="6" Click="NewItemBtn_Click" Height="25" Width="100" VerticalAlignment="Top" Margin="1,5,5,5">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Resources/new-48.png" Width="55" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <Label Padding="0" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="New" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="SaveItemBtn" Grid.Column="6" Grid.Row="1" Click="SaveItemBtn_Click" Height="25" Width="100" VerticalAlignment="Top" Margin="1,5,5,5">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Resources/save-close-48_2.png" Width="55" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                <Label Padding="0" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Save" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </GroupBox>
+            </Border>
+
+            <Border Grid.Row="1">
+                <GroupBox Header="Invoice Items">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <DataGrid x:Name="MyDataGridView" AutoGenerateColumns="False" ItemsSource="{Binding}" SelectionMode="Single" SelectionUnit="FullRow" IsEnabled="True" CanUserAddRows="False" CanUserReorderColumns="True"
+                       CanUserDeleteRows="True" ColumnWidth="*" Grid.Row="0" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Background="White" AlternatingRowBackground="AntiqueWhite">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn x:Name="IdCol" Visibility="Hidden" Binding="{Binding Id}" IsReadOnly="True" MaxWidth="60" />
+                                <DataGridTextColumn Header="Item Id" Binding="{Binding Item_Id}" IsReadOnly="True" Width="90" />
+                                <DataGridTextColumn Header="Barcode" Binding="{Binding Items.ItemBarCode}" IsReadOnly="True" Width="125" />
+                                <DataGridTextColumn Header="Name" Binding="{Binding Items.ItemName}" IsReadOnly="True" Width="*" />
+                                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" IsReadOnly="True" Width="100" />
+                                <DataGridTextColumn Header="Price" Binding="{Binding InvItem_SalesPrice}" IsReadOnly="True" Width="100" />
+                                <DataGridTextColumn x:Name="ItemTotalPriceCol" Header="Total Price" Binding="{Binding Item_TotalPrice}" IsReadOnly="True" Width="110" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </GroupBox>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
